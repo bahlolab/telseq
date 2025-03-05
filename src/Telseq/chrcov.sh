@@ -1,4 +1,5 @@
 #!/bin/bash
+chmod +x "$0"
 
 # Check if correct number of arguments is provided
 if [ "$#" -ne 3 ]; then
@@ -19,6 +20,7 @@ fi
 
 # Run samtools idxstats and save output to intermediate file
 echo "Running samtools idxstats on $BAM_FILE..."
+module load samtools
 samtools idxstats "$BAM_FILE" > "$INTERMEDIATE_OUTPUT"
 
 # Check if samtools idxstats was successful
