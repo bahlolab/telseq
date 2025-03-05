@@ -19,9 +19,11 @@ if [ ! -f "$BAM_FILE" ]; then
 fi
 
 # Run samtools idxstats and save output to intermediate file
+echo -e "Chromosome Name\tChromosome Length\tNumber of Mapped Reads\tNumber of Unmapped Reads" > $INTERMEDIATE_OUTPUT
 echo "Running samtools idxstats on $BAM_FILE..."
 module load samtools
-samtools idxstats "$BAM_FILE" > "$INTERMEDIATE_OUTPUT"
+module load R
+samtools idxstats "$BAM_FILE" >> "$INTERMEDIATE_OUTPUT"
 
 # Check if samtools idxstats was successful
 if [ $? -ne 0 ]; then
