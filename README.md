@@ -62,7 +62,7 @@ The /path/to/bamtools directory is the directory that contains 'lib' and 'includ
 ### Run chrcov.sh before running TelSeq (optional)
 Running this calculates the length of each chromosome, as well as number of mapped and unmapped reads. 
 It can be beneficial to do this to estimate an individual's chromosome number in case of aneuploidy. 
-It takes a BAM file and outputs an intermediate file of chromosome coverage for each chromosome (using 'samtools idxstats') as well 
+It takes a BAM file and outputs an intermediate file of chromosome coverage for each chromosome (using `samtools idxstats`) as well 
 as an estimate of the number of each chromosome.
 
 `<path/to/chrcov.sh> <path/to/a.bam> <path/to/intermediate_file> <path/to/output_file>`
