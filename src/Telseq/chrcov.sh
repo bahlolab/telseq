@@ -44,3 +44,57 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Analysis completed successfully! Final results saved to $FINAL_OUTPUT"
+
+echo "Please enter the telseq command (e.g., telseq -u -r 150 -o output.txt input.bam):"
+read user_command
+TELSEQ_OUTPUT=$(echo $user_command | grep -oP '(?<=-o\s)[^\s]+')
+
+total_chromosomes=45 #$(Rscript chr_num.R "$FINAL_OUTPUT")
+
+# Check if total_chromosomes is 46
+if [ "$total_chromosomes" -eq 46 ]; then
+  # Run telseq with the provided command
+  echo "Total chromosomes is 46, running telseq with the provided command."
+  $user_command
+else
+  # Run telseq with the provided command
+  echo "Total chromosomes is $total_chromosomes not 46, running telseq and processing the output."
+  $user_command
+  
+  # Extract the value of LENGTH_ESTIMATE from the output file
+  length_estimate=$(awk -F'\t' '
+    NR==1 { 
+      for (i=1; i<=NF; i++) { 
+        if ($i == "LENGTH_ESTIMATE") col=i 
+      } 
+    } 
+    NR>1 && col { 
+      print $col 
+    }' "$TELSEQ_OUTPUT")
+  
+  # Calculate the new LENGTH_ESTIMATE value
+  new_length_estimate=$(echo "$length_estimate * 46 / $total_chromosomes" | bc -l)
+  new_length_estimate=$(printf "%.5f" "$new_length_estimate")
+
+  echo "Original estimate: ${length_estimate}; New estimate: ${new_length_estimate}"
+
+
+  # Replace the LENGTH_ESTIMATE value in the duplicated file
+  awk -F'\t' -v new_length="$new_length_estimate" '
+    NR==1 { 
+      for (i=1; i<=NF; i++) { 
+        if ($i == "LENGTH_ESTIMATE") col=i 
+      } 
+    } 
+    NR>1 && col { 
+      $col=new_length 
+    } 
+    { print }' OFS='\t' "${TELSEQ_OUTPUT}" > temp_output
+
+  
+  # Rename the original file
+  mv $TELSEQ_OUTPUT "${TELSEQ_OUTPUT}_orig.txt"
+
+  # Rename the new file to sdf.txt
+  mv temp_output $TELSEQ_OUTPUT
+fi
