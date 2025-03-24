@@ -59,13 +59,16 @@ specify their location by
 
 The /path/to/bamtools directory is the directory that contains 'lib' and 'include' sub directories.
 
-### Run chrcov.sh before running TelSeq (optional)
-Running this calculates the length of each chromosome, as well as number of mapped and unmapped reads. 
-It can be beneficial to do this to estimate an individual's chromosome number in case of aneuploidy. 
-It takes a BAM file and outputs an intermediate file of chromosome coverage for each chromosome (using `samtools idxstats`) as well 
-as an estimate of the number of each chromosome.
+## Run chromosome number calculation along with TelSeq (optional)
+Running this calculates the total number of chromosomes in an individual, and can can correct for aneuploidy, if present. 
+It can be beneficial to do this to estimate an individual's chromosome number in case of abnormal chromosome numbers affecting telomere length estimate. 
+It takes a BAM file and outputs an intermediate file of chromosome coverage for each chromosome (using `samtools idxstats`), an estimate of 
+the number of each chromosome as well as TelSeq output (both corrected and not corrected versions).
 
 `<path/to/chrcov.sh> <path/to/a.bam> <path/to/intermediate_file> <path/to/output_file>`
+
+It will prompt for a user defined Telseq command. Use the below section named "Run TelSeq" for more details.
+Note: Do not use '~' in place of exact home directory path when entering output file path.
 
 ## Run TelSeq
 
