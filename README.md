@@ -63,7 +63,7 @@ The /path/to/bamtools directory is the directory that contains 'lib' and 'includ
 Running this calculates the total number of chromosomes in an individual, and can can correct for aneuploidy, if present. 
 It can be beneficial to do this to estimate an individual's chromosome number in case of abnormal chromosome numbers affecting telomere length estimate. 
 It takes a BAM file and outputs an intermediate file of chromosome coverage for each chromosome (using `samtools idxstats`), an estimate of 
-the number of each chromosome as well as TelSeq output (both corrected and not corrected versions).
+the number of each chromosome as well as TelSeq output (both corrected and not corrected versions, if required).
 
 `<path/to/chrcov.sh> <path/to/a.bam> <path/to/intermediate_file> <path/to/output_file>`
 
