@@ -60,7 +60,7 @@ echo "Analysis completed successfully! Final results saved to $FINAL_OUTPUT"
 TELSEQ_OUTPUT=$(echo "$TELSEQ_COMMAND" | grep -oP '(?<=-o\s)[^\s]+')
 
 # Run R script to get chromosome count
-total_chromosomes=45 # $(Rscript chr_num.R "$FINAL_OUTPUT")
+total_chromosomes=$(Rscript chr_num.R "$FINAL_OUTPUT")
 
 # Run telseq based on chromosome count
 if [ "$total_chromosomes" -eq 46 ]; then
